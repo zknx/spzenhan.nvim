@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <windows.h>
 
 int
@@ -18,10 +19,31 @@ main(int argc, char** argv)
 
   LPARAM stat = SendMessage(ime, WM_IME_CONTROL, IMC_GETOPENSTATUS, 0);
   LPARAM new_stat;
+  bool compatible_mode = false;
+  bool change_stat = false;
+
   if (argc >= 2) {
-    new_stat = std::atoi(argv[1]);
-    SendMessage(ime, WM_IME_CONTROL, IMC_SETOPENSTATUS, new_stat);
+    if (std::strstr(argv[1], "--compat") != NULL) {
+      compatible_mode = true;
+      if (argc >= 3) {
+        new_stat = std::atoi(argv[2]);
+        change_stat = true;
+      }
+    } else {
+      new_stat = std::atoi(argv[1]);
+      change_stat = true;
+    }
   }
+
+  if (change_stat) {
+      SendMessage(ime, WM_IME_CONTROL, IMC_SETOPENSTATUS, new_stat);
+  }
+
   std::printf("%lld\n", stat);
+
+  if (compatible_mode) {
+    return 0;
+  }
+
   return stat;
 }

@@ -76,4 +76,9 @@ echo $?
 * Don't make 32-bit binary.
 
 
+## Compatible mode
+
+If you give `--compat` option as 1st argument of spzenhan, spzenhan works compatibility mode.  
+In the compatibility mode, the return code of spzenhan process is always 0.  
+It will works well with VScodeVim plugin .
 
