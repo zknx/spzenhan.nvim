@@ -25,7 +25,7 @@ if has('win32') || has('win32unix') || g:spzenhan#wsl == 1
 
     if !exists('g:spzenhan#executable')
         let g:spzenhan#executable = 'spzenhan.exe'
-        let command_result = system(g:spzenhan#executable)
+        let command_result = system([g:spzenhan#executable])
         if v:shell_error != 0 && v:shell_error != 1
             let g:spzenhan#executable = expand('<sfile>:h:h') . '/zenhan/spzenhan.exe'
             if (getftype(g:spzenhan#executable) != "file")
@@ -40,10 +40,10 @@ if has('win32') || has('win32unix') || g:spzenhan#wsl == 1
 
     augroup zenhan
         autocmd!
-        autocmd BufEnter * call system(g:spzenhan#executable)
+        autocmd BufEnter * call system([g:spzenhan#executable])
                 \ | let b:zenhan_ime_status = exists('g:spzenhan#default_status') ? g:spzenhan#default_status : v:shell_error
-        autocmd InsertEnter * if b:zenhan_ime_status == 1 | call system(g:spzenhan#executable . ' 1') | endif
-        autocmd InsertLeave * call system(g:spzenhan#executable . ' 0')
+        autocmd InsertEnter * if b:zenhan_ime_status == 1 | call system([g:spzenhan#executable , ' 1']) | endif
+        autocmd InsertLeave * call system([g:spzenhan#executable , ' 0'])
                 \ | let b:zenhan_ime_status = exists('g:spzenhan#default_status') ? g:spzenhan#default_status : v:shell_error
     augroup END
 endif
