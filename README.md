@@ -11,6 +11,7 @@ The executable binary of spzenhan is include in this repository.
 ```lua
 {
   "zknx/spzenhan.nvim",
+  event = "BufEnter",
   opts = {
     -- Path to the spzenhan.exe executable.
     -- If nil, the plugin will automatically search for it in the system's PATH
