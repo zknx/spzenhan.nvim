@@ -1,84 +1,36 @@
-# zenhan
+# spzenhan.nvim
 
-Switch the mode of input method editor from terminal. This is a tool similar to im-select.
+A simple Neovim plugin for automatic IME (Input Method Editor) control on Windows and WSL.
+This plugin automatically switches your IME to OFF when you leave insert mode and restores its state when you re-enter insert mode.
+The executable binary of spzenhan is include in this repository.
 
-see https://github.com/VSCodeVim/Vim#input-method
+## Installation
 
-## Setting example
+### Using `lazy.nvim`
 
-```
-"vim.autoSwitchInputMethod.enable": true,
-"vim.autoSwitchInputMethod.defaultIM": "0",
-"vim.autoSwitchInputMethod.obtainIMCmd": "D:\\bin\\zenhan.exe",
-"vim.autoSwitchInputMethod.switchIMCmd": "D:\\bin\\zenhan.exe {im}"
-```
+```lua
+{
+  "zknx/spzenhan.nvim",
+  opts = {
+    -- Path to the spzenhan.exe executable.
+    -- If nil, the plugin will automatically search for it in the system's PATH
+    -- and within the plugin's own directory.
+    executable = nil,
 
-## see also
-
-[Qiita (Japanese)](https://qiita.com/iuchi/items/9ddcfb48063fc5ab626c)
-
----
-
-# spzenhan (for neovim)
-
-'spzenhan' is slightly patched zenhan to control IME from neovim.
-
-When exiting insert mode, turn off the IME if it is on.  
-When re-enterring the insert mode, the IME state will return to the state it was in the last time.
-
-The executable binary of spzenhan is include [in this repository](./zenhan/spzenhan.exe).
-
-## Install and Setting example
-
-dein.toml
-
-```
-[[plugins]]
-repo = '~/repos/spzenhan.vim'
+    -- The default IME status after you leave insert mode or switch buffers.
+    -- 0:   Always turn IME OFF. This is the classic behavior.
+    -- 1:   Always turn IME ON.
+    -- nil: Keep the IME state as it was when the buffer was first entered.
+    default_status = 0,
+  },
+}
 ```
 
-If you want to set the IME status always off when entering insert mode.
+## Credits
 
-```
-let g:spzenhan#default_status = 0
-```
+This plugin is heavily inspired by the following projects:
 
-## Usage of spzenhan.exe
+- [spzenhan.vim](https://github.com/kaz399/spzenhan.vim) by [kaz399](https://github.com/kaz399)
+- [zenhan](https://github.com/iuchim/zenhan) by [iuchim](https://github.com/iuchim)
 
-turn on IME
-
-```
-spzenhan 1
-```
-
-
-turn off IME
-
-```
-spzenhan 0
-```
-
-get current IME status (Return the IME status as exit code)
-
-```
-spzenhan
-echo $?
-```
-
-## Differences from original zenhan
-
-* Return the IME status as exit code (0:off, 1:on -1:error)
-
-    If spzenhan is run without arguments, the current IME status will be returned.  
-    If there is an argument, the IME status before the change will be returned.
-
-* The build script compiles spzenhan with clang.
-* Don't make 32-bit binary.
-
-
-## Compatible mode
-
-If you give `--compat` option as 1st argument of spzenhan, spzenhan works compatibility mode.  
-In the compatibility mode, the return code of spzenhan process is always 0.  
-It will works well with VScodeVim plugin .
-
+Many thanks to the original authors for their great work.
