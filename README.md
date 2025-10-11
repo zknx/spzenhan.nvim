@@ -18,6 +18,9 @@ The executable binary of spzenhan is include in this repository.
     -- and within the plugin's own directory.
     executable = nil,
 
+    -- If true, plugin will search spzenhan.exe from path.
+    find_executable_from_path = false,
+
     -- The default IME status after you leave insert mode or switch buffers.
     -- 0:   Always turn IME OFF. This is the classic behavior.
     -- 1:   Always turn IME ON.

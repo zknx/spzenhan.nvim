@@ -2,6 +2,7 @@ local M = {}
 
 local config = {
   executable = nil,
+  find_executable_from_path = false,
   default_status = nil,
 }
 
@@ -21,7 +22,7 @@ local function find_executable()
     return config.executable
   end
 
-  if vim.fn.executable("spzenhan.exe") == 1 then
+  if config.find_executable_from_path and vim.fn.executable("spzenhan.exe") == 1 then
     return "spzenhan.exe"
   end
 
