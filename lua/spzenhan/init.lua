@@ -59,8 +59,9 @@ function M.setup(user_config)
   vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup,
     callback = function()
-      vim.fn.system({ config.executable })
-      vim.b.zenhan_ime_status = vim.F.if_nil(config.default_status, vim.v.shell_error)
+      vim.system({ config.executable }, {}, function(rc)
+        vim.b.zenhan_ime_status = vim.F.if_nil(config.default_status, rc.code)
+      end)
     end,
   })
 
@@ -68,7 +69,7 @@ function M.setup(user_config)
     group = augroup,
     callback = function()
       if vim.b.zenhan_ime_status == 1 then
-        vim.fn.system({ config.executable, "1" })
+        vim.system({ config.executable, "1" })
       end
     end,
   })
@@ -76,7 +77,7 @@ function M.setup(user_config)
   vim.api.nvim_create_autocmd("InsertLeave", {
     group = augroup,
     callback = function()
-      vim.fn.system({ config.executable, "0" })
+      vim.system({ config.executable, "0" })
       vim.b.zenhan_ime_status = vim.F.if_nil(config.default_status, 0)
     end,
   })
